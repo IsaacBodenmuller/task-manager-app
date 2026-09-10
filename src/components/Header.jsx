@@ -1,3 +1,3 @@
 export function Header(props) {
-  return <header className="header">{props.children}</header>
+  return <header className="mt-9 bg-red-500">{props.children}</header>
 }
