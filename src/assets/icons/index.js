@@ -6,7 +6,7 @@ import HomeIcon from "./home.svg?react"
 import LoaderIcon from "./loader.svg?react"
 import MoonIcon from "./moon.svg?react"
 import SunIcon from "./sun.svg?react"
-import TasksIcon from "/tasks.svg?react"
+import TasksIcon from "./tasks.svg?react"
 import TrashIcon from "./trash.svg?react"
 
 export {
