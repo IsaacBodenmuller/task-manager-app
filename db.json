@@ -1,24 +1,10 @@
 {
   "tasks": [
     {
-      "id": "084ff983-39c0-4ef7-b2a4-ce802253c047",
-      "title": "acordar",
-      "time": "morning",
-      "description": "a",
-      "status": "not_started"
-    },
-    {
-      "id": "e69b923a-8d87-4a36-b8e7-7c2fb269a172",
-      "title": "tarde",
+      "id": "12567f8d-c393-4c25-a40b-15f2205bf033",
+      "title": "te",
       "time": "afternoon",
-      "description": "a",
-      "status": "not_started"
-    },
-    {
-      "id": "69269573-78cb-4a87-9f06-b89df8435eb4",
-      "title": "noite",
-      "time": "evening",
-      "description": "a",
+      "description": "te",
       "status": "not_started"
     }
   ]
