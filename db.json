@@ -1,45 +1,24 @@
 {
   "tasks": [
     {
-      "id": "1",
-      "title": "Estudar",
-      "description": "Estudar para prova",
+      "id": "084ff983-39c0-4ef7-b2a4-ce802253c047",
+      "title": "acordar",
       "time": "morning",
-      "status": "done"
-    },
-    {
-      "id": "2",
-      "title": "Ler",
-      "description": "Ler mais no dia a dia",
-      "time": "morning",
-      "status": "done"
-    },
-    {
-      "id": "3",
-      "title": "Treinar",
-      "description": "Treinar na academia",
-      "time": "afternoon",
-      "status": "in_progress"
-    },
-    {
-      "id": "4",
-      "title": "Comer",
-      "description": "Comer café",
-      "time": "afternoon",
-      "status": "in_progress"
-    },
-    {
-      "id": "5",
-      "title": "Jogar futebol",
-      "description": "Jogar futebol com os amigos",
-      "time": "evening",
+      "description": "a",
       "status": "not_started"
     },
     {
-      "id": "6",
-      "title": "Estudar Inglês",
-      "description": "Estudar curso de Inglês",
+      "id": "e69b923a-8d87-4a36-b8e7-7c2fb269a172",
+      "title": "tarde",
+      "time": "afternoon",
+      "description": "a",
+      "status": "not_started"
+    },
+    {
+      "id": "69269573-78cb-4a87-9f06-b89df8435eb4",
+      "title": "noite",
       "time": "evening",
+      "description": "a",
       "status": "not_started"
     }
   ]
