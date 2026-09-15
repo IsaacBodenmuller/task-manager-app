@@ -101,14 +101,20 @@ const AddTaskDialog = ({
                   placeholder="Insira o título da tarefa"
                   errorMessage={titleError?.message}
                   ref={titleRef}
+                  disabled={createIsLoading}
                 />
-                <TimeSelect errorMessage={timeError?.message} ref={timeRef} />
+                <TimeSelect
+                  errorMessage={timeError?.message}
+                  ref={timeRef}
+                  disabled={createIsLoading}
+                />
                 <Input
                   id="description"
                   label="Descrição"
                   placeholder="Descreva a tarefa"
                   errorMessage={descriptionError?.message}
                   ref={descriptionRef}
+                  disabled={createIsLoading}
                 />
                 <div className="flex gap-3">
                   <Button
@@ -146,6 +152,7 @@ AddTaskDialog.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
   onSubmitSuccess: PropTypes.func.isRequired,
+  onSubmitError: PropTypes.func.isRequired,
 }
 
 export default AddTaskDialog
