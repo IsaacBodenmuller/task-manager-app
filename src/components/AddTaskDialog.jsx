@@ -133,7 +133,7 @@ const AddTaskDialog = ({
                     disabled={createIsLoading}
                   >
                     {createIsLoading && (
-                      <LoaderIcon className="animate-spin text-white" />
+                      <LoaderIcon className="animate-spin text-brand-white" />
                     )}
                     Salvar
                   </Button>
