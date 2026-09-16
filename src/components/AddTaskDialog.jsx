@@ -47,12 +47,12 @@ const AddTaskDialog = ({
     }
 
     setErrors(newErrors)
-
     if (newErrors.length > 0) {
       return setCreateIsLoading(false)
     }
 
     const task = { id: v4(), title, time, description, status: "not_started" }
+    console.log(task)
     const response = await fetch("http://localhost:3000/tasks", {
       method: "POST",
       body: JSON.stringify(task),
