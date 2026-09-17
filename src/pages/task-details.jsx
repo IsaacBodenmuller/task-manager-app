@@ -36,6 +36,7 @@ const TaskDetailsPage = () => {
     if (!response.ok) {
       return toast.error("Erro ao deletar tarefa. Por favor tente novamente.")
     }
+    toast.error("Tarefa deletada com sucesso!")
     handleBackClick()
   }
 
@@ -63,7 +64,6 @@ const TaskDetailsPage = () => {
     if (newErrors.length > 0) {
       return setSaveIsLoading(false)
     }
-    console.log("a")
     const taskUpdated = { title, time, description }
     const response = await fetch(`http://localhost:3000/tasks/${taskId}`, {
       method: "PATCH",
