@@ -77,6 +77,8 @@ const TaskDetailsPage = () => {
     const newTask = await response.json()
     setTask(newTask)
     setSaveIsLoading(false)
+    toast.success("Tarefa atualizada com sucesso!")
+
     // handleBackClick()
   }
 
@@ -163,15 +165,13 @@ const TaskDetailsPage = () => {
         </div>
 
         <div className="flex w-full justify-end gap-3">
-          <Button color="secondary" size="large">
-            Cancelar
-          </Button>
           <Button
             color="primary"
             size="large"
             onClick={() => handleUpdateTask(taskId)}
+            disabled={saveIsLoading}
           >
-            {saveIsLoading && <LoaderIcon />}
+            {saveIsLoading && <LoaderIcon className="animate-spin" />}
             Salvar
           </Button>
         </div>
