@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
+import { useForm } from "react-hook-form"
 import { Link, useNavigate, useParams } from "react-router-dom"
 import { toast } from "sonner"
 
@@ -16,15 +17,28 @@ import TimeSelect from "../components/TimeSelect"
 const TaskDetailsPage = () => {
   const { taskId } = useParams()
   const [task, setTask] = useState()
-  const [errors, setErrors] = useState([])
-  const [saveIsLoading, setSaveIsLoading] = useState(false)
+
+  const {
+    register,
+    formState: { errors, isSubmitting },
+    handleSubmit,
+    reset,
+  } = useForm()
+
+  useEffect(() => {
+    const fetchTask = async () => {
+      const response = await fetch(`http://localhost:3000/tasks/${taskId}`, {
+        method: "GET",
+      })
+      // if (!response.ok) return
+      const data = await response.json()
+      setTask(data)
+      reset(data)
+    }
+    fetchTask()
+  }, [taskId, reset])
 
   const navigate = useNavigate()
-
-  const titleRef = useRef()
-  const timeRef = useRef()
-  const descriptionRef = useRef()
-
   const handleBackClick = () => {
     navigate(-1)
   }
@@ -40,65 +54,25 @@ const TaskDetailsPage = () => {
     handleBackClick()
   }
 
-  const handleUpdateTask = async (taskId) => {
-    setSaveIsLoading(true)
-    const newErrors = []
-    const title = titleRef.current.value
-    const time = timeRef.current.value
-    const description = descriptionRef.current.value
-
-    if (!title.trim()) {
-      newErrors.push({ inputName: "title", message: "O título é obrigatório." })
-    }
-    if (!time.trim()) {
-      newErrors.push({ inputName: "time", message: "O horário é obrigatório." })
-    }
-    if (!description.trim()) {
-      newErrors.push({
-        inputName: "description",
-        message: "A descrição é obrigatória.",
-      })
-    }
-
-    setErrors(newErrors)
-    if (newErrors.length > 0) {
-      return setSaveIsLoading(false)
-    }
-    const taskUpdated = { title, time, description }
-    const response = await fetch(`http://localhost:3000/tasks/${taskId}`, {
+  const handleUpdateTask = async (data) => {
+    const response = await fetch(`http://localhost:3000/tasks/${task.id}`, {
       method: "PATCH",
-      body: JSON.stringify(taskUpdated),
+      body: JSON.stringify({
+        title: data.title.trim(),
+        time: data.time,
+        description: data.description.trim(),
+      }),
     })
     if (!response.ok) {
-      setSaveIsLoading(false)
       return toast.error("Erro ao atualizar tarefa. Por favor tente novamente.")
     }
 
     const newTask = await response.json()
     setTask(newTask)
-    setSaveIsLoading(false)
     toast.success("Tarefa atualizada com sucesso!")
 
     // handleBackClick()
   }
-
-  const titleError = errors.find((error) => error.inputName === "title")
-  const timeError = errors.find((error) => error.inputName === "time")
-  const descriptionError = errors.find(
-    (error) => error.inputName === "description"
-  )
-
-  useEffect(() => {
-    const fetchTask = async () => {
-      const response = await fetch(`http://localhost:3000/tasks/${taskId}`, {
-        method: "GET",
-      })
-      // if (!response.ok) return
-      const taskDetails = await response.json()
-      setTask(taskDetails)
-    }
-    fetchTask()
-  }, [taskId])
 
   return (
     <div className="flex">
@@ -136,45 +110,71 @@ const TaskDetailsPage = () => {
           </div>
         </div>
 
-        <div className="space-y-6 rounded-xl bg-brand-white p-6">
-          <div>
-            <Input
-              id="title"
-              label="Título"
-              ref={titleRef}
-              defaultValue={task?.title}
-              errorMessage={titleError?.message}
-            />
-          </div>
-          <div>
-            <TimeSelect
-              ref={timeRef}
-              defaultValue={task?.time}
-              errorMessage={timeError?.message}
-            />
-          </div>
-          <div>
-            <Input
-              id="description"
-              label="Descrição"
-              ref={descriptionRef}
-              defaultValue={task?.description}
-              errorMessage={descriptionError?.message}
-            />
-          </div>
-        </div>
+        <form onSubmit={handleSubmit(handleUpdateTask)}>
+          <div className="space-y-6 rounded-xl bg-brand-white p-6">
+            <div>
+              <Input
+                id="title"
+                label="Título"
+                {...register("title", {
+                  required: "O título é obrigatório.",
+                  validate: (value) => {
+                    if (!value.trim()) {
+                      return "O título não pode ser vazio."
+                    }
 
-        <div className="flex w-full justify-end gap-3">
-          <Button
-            color="primary"
-            size="large"
-            onClick={() => handleUpdateTask(taskId)}
-            disabled={saveIsLoading}
-          >
-            {saveIsLoading && <LoaderIcon className="animate-spin" />}
-            Salvar
-          </Button>
-        </div>
+                    return true
+                  },
+                })}
+                errorMessage={errors?.title?.message}
+              />
+            </div>
+            <div>
+              <TimeSelect
+                {...register("time", {
+                  required: "O horário é obrigatório.",
+                  validate: (value) => {
+                    if (!value.trim()) {
+                      return "O horário não pode ser vazio."
+                    }
+
+                    return true
+                  },
+                })}
+                errorMessage={errors?.time?.message}
+              />
+            </div>
+            <div>
+              <Input
+                id="description"
+                label="Descrição"
+                {...register("description", {
+                  required: "A descrição é obrigatória.",
+                  validate: (value) => {
+                    if (!value.trim()) {
+                      return "A descrição não pode ser vazia."
+                    }
+
+                    return true
+                  },
+                })}
+                errorMessage={errors?.description?.message}
+              />
+            </div>
+          </div>
+
+          <div className="flex w-full justify-end gap-3">
+            <Button
+              color="primary"
+              size="large"
+              type="submit"
+              disabled={isSubmitting}
+            >
+              {isSubmitting && <LoaderIcon className="animate-spin" />}
+              Salvar
+            </Button>
+          </div>
+        </form>
       </div>
     </div>
   )
